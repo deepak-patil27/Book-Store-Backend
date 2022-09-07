@@ -2,6 +2,7 @@ package com.bridgelabz.bookstore.entity;
 
 import com.bridgelabz.bookstore.dto.BookDTO;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +10,7 @@ import javax.persistence.Id;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class Book {
     @Id
     @GeneratedValue
@@ -19,21 +21,10 @@ public class Book {
     private Integer quantity;
 
     public Book(BookDTO dto) {
-        super();
         this.bookName = dto.getBookName();
         this.authorName = dto.getAuthorName();
         this.price = dto.getPrice();
         this.quantity = dto.getQuantity();
     }
-    public Book(Integer bookID,BookDTO dto) {
-        super();
-        this.bookID = bookID;
-        this.bookName = dto.getBookName();
-        this.authorName = dto.getAuthorName();
-        this.price = dto.getPrice();
-        this.quantity = dto.getQuantity();
-    }
-    public Book() {
-        super();
-    }
+
 }

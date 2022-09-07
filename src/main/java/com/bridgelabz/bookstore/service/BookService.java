@@ -19,9 +19,8 @@ public class BookService implements IBookService{
     private BookRepository bookRepo;
     public Book insertBook(BookDTO bookdto) {
         Book newBook = new Book(bookdto);
-        bookRepo.save(newBook);
         log.info("Book record inserted successfully");
-        return newBook;
+        return bookRepo.save(newBook);
     }
     public List<Book> getAllBookRecords(){
         List<Book> 	bookList =bookRepo.findAll();
@@ -29,8 +28,8 @@ public class BookService implements IBookService{
         return bookList;
     }
     //Ability to serve to controller's retrieving all records api call
-    public List<Book> getBookRecord(Integer id) {
-        List<Book> book = bookRepo.findByBookId(id);
+    public Optional<Book> getBookRecord(Integer id) {
+        Optional<Book> book = bookRepo.findById(id);
         if(book.isEmpty()) {
             throw new BookStoreException("Book Record doesn't exists");
         }
@@ -46,7 +45,7 @@ public class BookService implements IBookService{
             throw new BookStoreException("Book Record doesn't exists");
         }
         else {
-            Book newBook = new Book(id,dto);
+            Book newBook = new Book(dto);
             bookRepo.save(newBook);
             log.info("Book record updated successfully for id "+id);
             return newBook;

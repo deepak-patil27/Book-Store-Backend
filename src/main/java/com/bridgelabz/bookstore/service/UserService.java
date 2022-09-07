@@ -4,6 +4,7 @@ import com.bridgelabz.bookstore.dto.UserDTO;
 import com.bridgelabz.bookstore.entity.User;
 import com.bridgelabz.bookstore.exception.BookStoreException;
 import com.bridgelabz.bookstore.repository.UserRepository;
+import com.bridgelabz.bookstore.util.EmailSenderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,12 +18,14 @@ import java.util.Optional;
 public class UserService implements IUserService{
     @Autowired
     private UserRepository userRepo;
+    @Autowired
+    EmailSenderService mailService;
 
-    //Created service method which serves controller api to post data
-    public User saveDataToRepo(UserDTO userDTO) {
-        User newUser = new User(userDTO);
-        userRepo.save(newUser);
-        return newUser;
+    //Ability to serve controller's insert user record api call
+    public User registerUser(UserDTO userdto) {
+        User newUser = new User(userdto);
+        mailService.sendEmail(userdto.getEmail(),"User got registered","Hello: You Have Successfully Added New User");
+        return  userRepo.save(newUser);
     }
 
     public List<User> getAllRecords(){

@@ -19,9 +19,10 @@ public class UserController {
     private IUserService userService;
 
     @PostMapping("/createuserdetail")
-    public ResponseEntity<String> saveDataToRepo(@Valid @RequestBody UserDTO userDTO) {
-        ResponseDTO responseDTO = new ResponseDTO("User Record created successfully", userService.saveDataToRepo(userDTO));
-        return new ResponseEntity(responseDTO, HttpStatus.CREATED);
+    public ResponseEntity<ResponseDTO> registerUser(@Valid @RequestBody UserDTO userdto){
+        User newUser = userService.registerUser(userdto);
+        ResponseDTO dto = new ResponseDTO("User Record created successfully !",newUser);
+        return new ResponseEntity(dto,HttpStatus.CREATED);
     }
     @GetMapping("/retrieveAll")
     public ResponseEntity<ResponseDTO> getAllRecords(){

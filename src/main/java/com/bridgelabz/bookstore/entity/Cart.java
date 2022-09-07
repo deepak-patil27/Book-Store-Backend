@@ -1,11 +1,13 @@
 package com.bridgelabz.bookstore.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class Cart {
     @Id
     @GeneratedValue
@@ -19,19 +21,14 @@ public class Cart {
     private Integer quantity;
 
     public Cart(Integer cartID,Integer quantity, Book book, User user) {
-        super();
         this.cartID= cartID;
         this.quantity = quantity;
         this.book=book;
         this.user=user;
     }
     public Cart(Integer quantity, Book book, User user) {
-        super();
         this.quantity = quantity;
         this.book=book;
         this.user=user;
-    }
-    public Cart() {
-        super();
     }
 }
