@@ -20,7 +20,7 @@ public class BookController {
 
     @PostMapping("/insert")
     public ResponseEntity<ResponseDTO> insertBook(@Valid @RequestBody BookDTO bookdto){
-        ResponseDTO dto = new ResponseDTO("User registered successfully !",bookService.insertBook(bookdto));
+        ResponseDTO dto = new ResponseDTO("Book registered successfully !",bookService.insertBook(bookdto));
         return new ResponseEntity(dto, HttpStatus.CREATED);
     }
     @GetMapping("/retrieveBook/{id}")

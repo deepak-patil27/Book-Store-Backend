@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 @CrossOrigin
 @RestController
 @RequestMapping("/userdetails")
@@ -18,12 +17,13 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
-    @PostMapping("/createuserdetail")
+    @PostMapping("/register")
     public ResponseEntity<ResponseDTO> registerUser(@Valid @RequestBody UserDTO userdto){
-        User newUser = userService.registerUser(userdto);
+        String newUser = userService.registerUser(userdto);
         ResponseDTO dto = new ResponseDTO("User Record created successfully !",newUser);
         return new ResponseEntity(dto,HttpStatus.CREATED);
     }
+    
     @GetMapping("/retrieveAll")
     public ResponseEntity<ResponseDTO> getAllRecords(){
         ResponseDTO dto = new ResponseDTO("All records retrieved successfully !",userService.getAllRecords());
@@ -33,6 +33,13 @@ public class UserController {
     @GetMapping("/retrieve/{id}")
     public ResponseEntity<ResponseDTO> getRecord(@PathVariable Integer id){
         ResponseDTO dto = new ResponseDTO("Record retrieved successfully !",userService.getRecord(id));
+        return new ResponseEntity(dto,HttpStatus.OK);
+    }
+    //Ability to call api to retrieve user record by token
+    @GetMapping("/retrieveByToken/{token}")
+    public ResponseEntity<ResponseDTO> getRecordByToken(@PathVariable String token){
+        User newUser = userService.getRecordByToken(token);
+        ResponseDTO dto = new ResponseDTO("Record retrieved successfully !",newUser);
         return new ResponseEntity(dto,HttpStatus.OK);
     }
     @PutMapping("/update/{id}")

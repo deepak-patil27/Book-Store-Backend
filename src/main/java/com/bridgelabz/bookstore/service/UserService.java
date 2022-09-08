@@ -5,6 +5,7 @@ import com.bridgelabz.bookstore.entity.User;
 import com.bridgelabz.bookstore.exception.BookStoreException;
 import com.bridgelabz.bookstore.repository.UserRepository;
 import com.bridgelabz.bookstore.util.EmailSenderService;
+import com.bridgelabz.bookstore.util.TokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,11 +22,35 @@ public class UserService implements IUserService{
     @Autowired
     EmailSenderService mailService;
 
+    @Autowired
+    TokenUtil util;
+
     //Ability to serve controller's insert user record api call
-    public User registerUser(UserDTO userdto) {
+    public String registerUser(UserDTO userdto) {
         User newUser = new User(userdto);
-        mailService.sendEmail(userdto.getEmail(),"User got registered","Hello: You Have Successfully Added New User");
-        return  userRepo.save(newUser);
+        userRepo.save(newUser);
+        String token = util.createToken(newUser.getUserID());
+        mailService.sendEmail(userdto.getEmail(),"Account Sign-up successfully","Hello" + newUser.getFirstName() + " Your Account has been created.Your token is " + token + " Keep this token safe to access your account in future ");
+        return token;
+    }
+    //Ability to serve controller's retrieve user record by token api call
+    public User getRecordByToken(String token){
+        Integer id = util.decodeToken(token);
+        Optional<User> 	user = userRepo.findById(id);
+        if(user.isEmpty()) {
+            throw new BookStoreException("User Record doesn't exists");
+        }
+        else {
+            log.info("Record retrieved successfully for given token having id "+id);
+            return user.get();
+        }
+    }
+    //Ability to serve controller's get token for changing password api call
+    public String getToken(String email) {
+        Optional<User> user = userRepo.findByMail(email);
+        String token = util.createToken(user.get().getUserID());
+        log.info("Token sent on mail successfully");
+        return token;
     }
 
     public List<User> getAllRecords(){
@@ -56,4 +81,5 @@ public class UserService implements IUserService{
             return newUser;
         }
     }
+
 }

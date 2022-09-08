@@ -15,13 +15,13 @@ import javax.validation.Valid;
 @RequestMapping("/cartdetails")
 public class CartController {
     //Autowired ICartService to inject its dependency here
-    @Autowired
-    private ICartService cartService;
+   @Autowired
+   ICartService cartService;
 
     //Ability to call api to insert all cart records
     @PostMapping("/insert")
     public ResponseEntity<ResponseDTO> insertBook(@Valid @RequestBody CartDTO cartdto){
-        ResponseDTO dto = new ResponseDTO("User registered successfully !",cartService.insertCart(cartdto));
+        ResponseDTO dto = new ResponseDTO("Book Added To Cart successfully !",cartService.insertCart(cartdto));
         return new ResponseEntity(dto, HttpStatus.CREATED);
     }
     //Ability to call api to retrieve all card records
