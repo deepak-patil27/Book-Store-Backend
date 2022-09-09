@@ -19,12 +19,16 @@ public class Book {
     private String authorName;
     private Integer price;
     private Integer quantity;
+    private String bookDescription;
+    private String bookImg;
 
     public Book(BookDTO dto) {
         this.bookName = dto.getBookName();
         this.authorName = dto.getAuthorName();
         this.price = dto.getPrice();
         this.quantity = dto.getQuantity();
+        this.bookDescription = dto.getBookDescription();
+        this.bookImg = dto.getBookImg();
     }
 
 }

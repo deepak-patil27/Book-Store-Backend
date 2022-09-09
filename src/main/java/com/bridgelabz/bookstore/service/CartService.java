@@ -104,4 +104,25 @@ public class CartService implements ICartService{
             return cart.get();
         }
     }
+    //Ability to serve to controller's update quantity of books in cart api call
+    public Cart updateQuantity(Integer id, Integer quantity) {
+        Optional<Cart> cart = cartRepo.findById(id);
+        Optional<Book>  book = bookRepo.findById(cart.get().getBook().getBookID());
+        if(cart.isEmpty()) {
+            throw new BookStoreException("Cart Record doesn't exists");
+        }
+        else {
+            if(quantity < book.get().getQuantity()) {
+                cart.get().setQuantity(quantity);
+                cartRepo.save(cart.get());
+                log.info("Quantity in cart record updated successfully");
+                book.get().setQuantity(book.get().getQuantity() - (quantity - cart.get().getQuantity()));
+                bookRepo.save(book.get());
+                return cart.get();
+            }
+            else {
+                throw new BookStoreException("Requested quantity is not available");
+            }
+        }
+    }
 }

@@ -18,5 +18,11 @@ public interface IBookService {
     public List<Book> getRecordByBookName(String bookName);
 
     public Book deleteBookRecord(Integer id);
+    public List<Book> sortRecordDesc();
+
+    public List<Book> sortRecordAsc();
+
+    public Book updateQuantity(Integer id, Integer quantity);
+
 
 }

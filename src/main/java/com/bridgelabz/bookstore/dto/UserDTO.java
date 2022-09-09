@@ -1,6 +1,8 @@
 package com.bridgelabz.bookstore.dto;
 
 import lombok.Data;
+
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
@@ -20,5 +22,8 @@ public class UserDTO {
 
     @NotEmpty(message="Address cant be empty")
     private String address;
+
+    @NotBlank(message="Password cant be blank")
+    private String password;
 
 }

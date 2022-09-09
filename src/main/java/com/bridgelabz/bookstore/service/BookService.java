@@ -4,7 +4,6 @@ import com.bridgelabz.bookstore.dto.BookDTO;
 import com.bridgelabz.bookstore.entity.Book;
 import com.bridgelabz.bookstore.exception.BookStoreException;
 import com.bridgelabz.bookstore.repository.BookRepository;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -71,6 +70,31 @@ public class BookService implements IBookService{
         else {
             bookRepo.deleteById(id);
             log.info("Book record deleted successfully for id "+id);
+            return book.get();
+        }
+    }
+    //Ability to serve to controller's sort all records in ascending order api call
+    public List<Book> sortRecordAsc(){
+        List<Book> listOfBooks = bookRepo.sortBooksAsc();
+        log.info("Book records sorted in ascending order by price successfully");
+        return listOfBooks;
+    }
+    //Ability to serve to controller's sort all records in descending order api call
+    public List<Book> sortRecordDesc(){
+        List<Book> listOfBooks = bookRepo.sortBooksDesc();
+        log.info("Book records sorted in descending order by price successfully");
+        return listOfBooks;
+    }
+    //Ability to serve to controller's update book quantity api call
+    public Book updateQuantity(Integer id, Integer quantity) {
+        Optional<Book> book = bookRepo.findById(id);
+        if(book.isEmpty()) {
+            throw new BookStoreException("Book Record doesn't exists");
+        }
+        else {
+            book.get().setQuantity(quantity);
+            bookRepo.save(book.get());
+            log.info("Quantity for book record updated successfully for id "+id);
             return book.get();
         }
     }

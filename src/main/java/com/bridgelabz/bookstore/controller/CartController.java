@@ -2,6 +2,7 @@ package com.bridgelabz.bookstore.controller;
 
 import com.bridgelabz.bookstore.dto.CartDTO;
 import com.bridgelabz.bookstore.dto.ResponseDTO;
+import com.bridgelabz.bookstore.entity.Cart;
 import com.bridgelabz.bookstore.service.ICartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,8 +40,13 @@ public class CartController {
     //Ability to call api to update cart by id
     @PutMapping("/updateCart/{id}")
     public ResponseEntity<ResponseDTO> updateCartRecord(@PathVariable Integer id,@Valid @RequestBody CartDTO cartdto){
-        ResponseDTO dto = new ResponseDTO("Record updated successfully !",updateCartRecord(id,cartdto));
+        ResponseDTO dto = new ResponseDTO("Record updated successfully !",cartService.updateCartRecord(id,cartdto));
         return new ResponseEntity(dto,HttpStatus.ACCEPTED);
+    }
+    @PutMapping("/updateQuantity/{id}/{quantity}")
+    public ResponseEntity<ResponseDTO> updateQuantity(@PathVariable Integer id,@PathVariable Integer quantity){
+        ResponseDTO dto = new ResponseDTO("Quantity for book record updated successfully !",cartService.updateQuantity(id,quantity));
+        return new ResponseEntity(dto,HttpStatus.OK);
     }
     //Ability to call api to delete cart by id
     @DeleteMapping("/deleteCart/{id}")
@@ -48,5 +54,6 @@ public class CartController {
         ResponseDTO dto = new ResponseDTO("Record deleted successfully !", cartService.deleteCartRecord(id));
         return new ResponseEntity(dto, HttpStatus.ACCEPTED);
     }
+
 
 }
