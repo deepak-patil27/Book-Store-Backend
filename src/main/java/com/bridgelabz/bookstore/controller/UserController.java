@@ -11,13 +11,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+//Controller to make api calls
 @CrossOrigin
 @RestController
 @RequestMapping("/userdetails")
 public class UserController {
+    //Autowired IUserService to inject its dependency here
     @Autowired
     private IUserService userService;
-
+    //Ability to call api to register user
     @PostMapping("/register")
     public ResponseEntity<ResponseDTO> registerUser(@Valid @RequestBody UserDTO userdto){
         ResponseDTO dto = new ResponseDTO("User Record created successfully !",userService.registerUser(userdto));
@@ -35,7 +37,7 @@ public class UserController {
         ResponseDTO dto = new ResponseDTO("Password Resetted successfully !",userService.changePassword(passwordDTO));
         return new ResponseEntity(dto,HttpStatus.OK);
     }
-
+    //Ability to call api to retrieve all user records
     @GetMapping("/retrieveAll")
     public ResponseEntity<ResponseDTO> getAllRecords(){
         ResponseDTO dto = new ResponseDTO("All records retrieved successfully !",userService.getAllRecords());
@@ -53,9 +55,16 @@ public class UserController {
         ResponseDTO dto = new ResponseDTO("Record retrieved successfully !",userService.getRecordByToken(token));
         return new ResponseEntity(dto,HttpStatus.OK);
     }
+    //Ability to call api to update user record by id
     @PutMapping("/update/{id}")
     public ResponseEntity<ResponseDTO> updateRecord(@PathVariable Integer id, @Valid @RequestBody UserDTO userdto){
         ResponseDTO dto = new ResponseDTO("Record updated successfully !",userService.updateRecord(id,userdto));
         return new ResponseEntity(dto,HttpStatus.ACCEPTED);
+    }
+    //Ability to call api to retrieve user record by email
+    @GetMapping("/retrieveByemail/{email}")
+    public ResponseEntity<ResponseDTO> getUserByEmailId(@PathVariable String email) {
+        ResponseDTO responseDTO = new ResponseDTO("Record for email successfully", userService.getUserByEmailId(email));
+        return new ResponseEntity(responseDTO, HttpStatus.OK);
     }
 }

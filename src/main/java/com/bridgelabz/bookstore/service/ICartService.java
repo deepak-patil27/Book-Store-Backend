@@ -13,4 +13,5 @@ public interface ICartService {
     public Cart updateCartRecord(Integer id, CartDTO dto);
     public Cart deleteCartRecord(Integer id);
     public Cart updateQuantity(Integer id, Integer quantity);
+    public List<Cart> deleteAllFromCart();
 }

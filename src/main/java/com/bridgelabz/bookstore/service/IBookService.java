@@ -11,7 +11,7 @@ public interface IBookService {
 
     public List<Book> getAllBookRecords();
 
-    public Optional<Book> getBookRecord(Integer id);
+    public List<Book> getBookRecord(Integer id);
 
     public Book updateBookRecord(Integer id, BookDTO dto);
 

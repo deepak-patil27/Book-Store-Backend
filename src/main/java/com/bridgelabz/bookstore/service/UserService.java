@@ -17,7 +17,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
-
+//Ability to provide service to controller
 @Service
 @Slf4j
 public class UserService implements IUserService{
@@ -62,7 +62,7 @@ public class UserService implements IUserService{
             return user.get();
         }
     }
-
+    //Ability to serve controller's retrieve all user records api call
     public List<User> getAllRecords(){
         List<User> 	userList = userRepo.findAll();
         log.info("All Record Retrieved Successfully");
@@ -79,6 +79,7 @@ public class UserService implements IUserService{
             return user.get();
         }
     }
+    //Ability to serve controller's update user record by id api call
     public User updateRecord(Integer id, UserDTO dto) {
         Optional<User> user = userRepo.findById(id);
         if(user.isEmpty()) {
@@ -109,6 +110,15 @@ public class UserService implements IUserService{
             else {
                 throw new BookStoreException("Invalid token");
             }
+        }
+    }
+    //Created to serve controller's retrieve user record by email api call
+    public User getUserByEmailId(String email) {
+        Optional<User> newUser = userRepo.findByMail(email);
+        if (newUser.isEmpty()) {
+            throw new BookStoreException("User record does not exist");
+        } else {
+            return newUser.get();
         }
     }
 

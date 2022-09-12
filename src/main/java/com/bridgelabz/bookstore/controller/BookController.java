@@ -35,6 +35,14 @@ public class BookController {
         return new ResponseEntity(dto, HttpStatus.OK);
     }
 
+    //Ability to call api to retrieve record by book name
+    @GetMapping("/retrieve/{bookName}")
+    public ResponseEntity<ResponseDTO> getRecordByBookName(@PathVariable String bookName){
+        List<Book> newBook = bookService.getRecordByBookName(bookName);
+        ResponseDTO dto = new ResponseDTO("Record for particular book retrieved successfully !",newBook);
+        return new ResponseEntity(dto,HttpStatus.OK);
+    }
+
     //Ability to call api to get record by id
     @GetMapping("/retrieveBook/{id}")
     public ResponseEntity<ResponseDTO> getBookRecord(@PathVariable Integer id) {

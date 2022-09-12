@@ -12,9 +12,9 @@ public class BookDTO {
     private String authorName;
     private Integer price;
     private Integer quantity;
-    @NotEmpty(message="Please enter book description")
+    //@NotEmpty(message="Please enter book description")
     private String bookDescription;
-    @NotEmpty(message="Book image yet to be provided")
+    //@NotEmpty(message="Book image yet to be provided")
     private String bookImg;
 
 }

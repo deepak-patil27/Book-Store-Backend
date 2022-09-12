@@ -10,25 +10,28 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+//Ability to provide service to controllers api calls
 @Service
 @Slf4j
 public class BookService implements IBookService{
+    //Autowired BookRepository to inject its dependency here
     @Autowired
     private BookRepository bookRepo;
+    //Ability to serve to controller's insert api call
     public Book insertBook(BookDTO bookdto) {
         Book newBook = new Book(bookdto);
         log.info("Book record inserted successfully");
         return bookRepo.save(newBook);
     }
+    //Ability to serve to controller's retrieving all records api call
     public List<Book> getAllBookRecords(){
         List<Book> 	bookList =bookRepo.findAll();
         log.info("All book records retrieved successfully");
         return bookList;
     }
     //Ability to serve to controller's retrieving all records api call
-    public Optional<Book> getBookRecord(Integer id) {
-        Optional<Book> book = bookRepo.findById(id);
+    public List<Book> getBookRecord(Integer id) {
+        List<Book> book = bookRepo.findByBookId(id);
         if(book.isEmpty()) {
             throw new BookStoreException("Book Record doesn't exists");
         }
@@ -51,6 +54,7 @@ public class BookService implements IBookService{
         }
 
     }
+    //Ability to serve to controller's retrieve record by book name api call
     public List<Book> getRecordByBookName(String bookName) {
         List<Book> book = bookRepo.findByBookName(bookName);
         if(book.isEmpty()) {

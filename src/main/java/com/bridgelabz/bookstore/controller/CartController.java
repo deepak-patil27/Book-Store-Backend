@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -43,6 +44,7 @@ public class CartController {
         ResponseDTO dto = new ResponseDTO("Record updated successfully !",cartService.updateCartRecord(id,cartdto));
         return new ResponseEntity(dto,HttpStatus.ACCEPTED);
     }
+    //Ability to call api to update quantity of book in cart by id
     @PutMapping("/updateQuantity/{id}/{quantity}")
     public ResponseEntity<ResponseDTO> updateQuantity(@PathVariable Integer id,@PathVariable Integer quantity){
         ResponseDTO dto = new ResponseDTO("Quantity for book record updated successfully !",cartService.updateQuantity(id,quantity));
@@ -53,6 +55,12 @@ public class CartController {
     public ResponseEntity<ResponseDTO> deleteCartRecord(@PathVariable Integer id) {
         ResponseDTO dto = new ResponseDTO("Record deleted successfully !", cartService.deleteCartRecord(id));
         return new ResponseEntity(dto, HttpStatus.ACCEPTED);
+    }
+    //Ability to call api to delete All cart
+    @DeleteMapping("/deleteall")
+    public ResponseEntity<ResponseDTO> deleteBooks() {
+        List<Cart> books = cartService.deleteAllFromCart();
+        return new ResponseEntity(books, HttpStatus.OK);
     }
 
 

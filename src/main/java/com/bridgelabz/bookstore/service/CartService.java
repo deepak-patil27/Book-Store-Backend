@@ -125,4 +125,11 @@ public class CartService implements ICartService{
             }
         }
     }
+    //Created service method which serves controller api to delete all quantity
+    public List<Cart> deleteAllFromCart() {
+
+        cartRepo.deleteAll();
+        return cartRepo.findAll();
+    }
+
 }
